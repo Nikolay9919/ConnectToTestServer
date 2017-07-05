@@ -5,109 +5,144 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.nikolay.conecttotestserver.MainActivity">
+
     <EditText
         android:id="@+id/UserName"
         android:layout_width="165dp"
-        android:layout_height="42dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="467dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="466dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintLeft_toRightOf="@+id/UserNameoutput"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.944" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="0.0" />
+
     <EditText
         android:id="@+id/password1"
-        android:layout_width="166dp"
-        android:layout_height="43dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="404dp"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="400dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.815"
+        app:layout_constraintLeft_toRightOf="@+id/Userpassword2output"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.954" />
+        app:layout_constraintTop_toBottomOf="@+id/UserName"
+        app:layout_constraintVertical_bias="0.388" />
+
     <EditText
         android:id="@+id/password2"
-        android:layout_width="179dp"
-        android:layout_height="43dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="345dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintLeft_toRightOf="@+id/Userpasswor1doutput"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/password1"
+        app:layout_constraintVertical_bias="0.42000002" />
+
     <EditText
         android:id="@+id/email"
-        android:layout_width="170dp"
-        android:layout_height="49dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="274dp"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintHorizontal_bias="0.894"
+        app:layout_constraintLeft_toRightOf="@+id/EnterYourEmail"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.953" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/password2"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/text"
+        app:layout_constraintVertical_bias="0.20999998" />
     <Button
         android:id="@+id/button_id"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="Register"
-        tools:layout_editor_absoluteY="368dp"
-        tools:layout_editor_absoluteX="130dp" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/UserNameoutput"
-        android:layout_width="130dp"
-        android:layout_height="30dp"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
         android:text="Enter Username"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/Userpassword2output"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.031"
-        app:layout_constraintHorizontal_bias="0.0" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="0.18" />
     <TextView
         android:id="@+id/Userpasswor1doutput"
-        android:layout_width="160dp"
+        android:layout_width="165dp"
         android:layout_height="40dp"
         android:text="Enter password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.261"
+        app:layout_constraintVertical_bias="0.26999998"
         app:layout_constraintHorizontal_bias="0.0" />
+
     <TextView
         android:id="@+id/Userpassword2output"
-        android:layout_width="133dp"
-        android:layout_height="39dp"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
         android:text="Enter password"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.144"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintVertical_bias="0.13999999" />
+
     <TextView
         android:id="@+id/EnterYourEmail"
-        android:layout_width="174dp"
-        android:layout_height="35dp"
+        android:layout_width="165dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
         android:text="Enter your email"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginBottom="274dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/Userpasswor1doutput"
+        app:layout_constraintBottom_toTopOf="@+id/text"
+        app:layout_constraintVertical_bias="0.43" />
     <TextView
         android:id="@+id/text"
-        android:layout_width="319dp"
-        android:layout_height="75dp"
+        android:layout_width="323dp"
+        android:layout_height="183dp"
         android:text="тут могла быть жопа"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="181dp"
-        app:layout_constraintHorizontal_bias="0.39" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_id"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        tools:layout_editor_absoluteY="264dp" />
 </android.support.constraint.ConstraintLayout>
