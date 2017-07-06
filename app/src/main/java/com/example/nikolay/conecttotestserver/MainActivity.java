@@ -1,5 +1,6 @@
 package com.example.nikolay.conecttotestserver;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button = (Button) findViewById(R.id.button_id);
@@ -29,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("click", "click");
                 new HttpTask().execute();
+            }
+        });
+        final Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        final Button button_register = (Button) findViewById(R.id.button_login);
+        button_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent);
             }
         });
     }

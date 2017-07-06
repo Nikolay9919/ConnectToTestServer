@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         final Button button_register = (Button) findViewById(R.id.button_registr);
+
         button_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,10 +85,18 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Void op) {
             TextView textView = (TextView) findViewById(R.id.infoOutput);
             if (result.isEmpty()) {
-
-                textView.setText("Not");
             }else{
+
+                final Button button_add_wallet = (Button) findViewById(R.id.button_add_wallet);
+                final Intent intent = new Intent(LoginActivity.this, WalletActivity.class);
                 textView.setText(result);
+                button_add_wallet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(intent);
+                    }
+                });
+
             }
         }
     }
