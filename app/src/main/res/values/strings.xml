@@ -2,7 +2,7 @@
     <string name="app_name">conectToTestServer</string>
     <string-array name="Choise_type">
         <item>Visa</item>
-        <item>Mastercard</item>
+        <item>Master card</item>
         <item>Cash</item>
     </string-array>
 </resources>

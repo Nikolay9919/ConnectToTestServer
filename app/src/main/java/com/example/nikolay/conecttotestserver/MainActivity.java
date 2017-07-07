@@ -34,19 +34,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         final Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        final Button button_register = (Button) findViewById(R.id.button_login);
-        button_register.setOnClickListener(new View.OnClickListener() {
+        final Button button_login = (Button) findViewById(R.id.button_login);
+        button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(intent);
             }
         });
     }
+
     private class HttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
+
         @Override
         protected Void doInBackground(Void... voids) {
+
             String username = ((EditText) findViewById(R.id.UserName)).getText().toString();
             String password1 = ((EditText) findViewById(R.id.password1)).getText().toString();
             String password2 = ((EditText) findViewById(R.id.password2)).getText().toString();
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("username", username);
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme("http")
-                    .host("10.10.9.217")
+                    .host("127.0.0.1")
                     .port(8000)
                     .addPathSegments("api/register/");
             final HttpUrl url = builder.build();
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Void op) {
             TextView textView = (TextView) findViewById(R.id.text);

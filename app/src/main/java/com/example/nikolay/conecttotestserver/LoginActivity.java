@@ -2,6 +2,7 @@ package com.example.nikolay.conecttotestserver;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -51,14 +53,16 @@ public class LoginActivity extends AppCompatActivity {
 
         private OkHttpClient client;
         private String result = "unknown";
-
         @Override
         protected Void doInBackground(Void... voids) {
             String username = ((EditText) findViewById(R.id.login)).getText().toString();
             String password = ((EditText) findViewById(R.id.passwordinput)).getText().toString();
+
+
+
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme("http")
-                    .host("10.10.9.217")
+                    .host("127.0.0.1")
                     .port(8000)
                     .addPathSegments("api/login/");
             final HttpUrl url = builder.build();
