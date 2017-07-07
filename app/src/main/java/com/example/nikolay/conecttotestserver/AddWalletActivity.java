@@ -1,5 +1,6 @@
 package com.example.nikolay.conecttotestserver;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +24,15 @@ import okhttp3.Response;
 
 
 public class AddWalletActivity extends AppCompatActivity {
+    String username,password;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_activity_wallet);
+        Intent intent = getIntent();
+
+         username = intent.getStringExtra("username");
+         password = intent.getStringExtra("password");
+        Log.d("ret",username);
         final Button button_add_wallet = (Button) findViewById(R.id.button_wallet);
         button_add_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,14 +54,15 @@ public class AddWalletActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
 
+
             try {
                 String nameWallet = ((EditText) findViewById(R.id.name_wallet_input)).getText().toString();
                 Spinner spinner = (Spinner) findViewById(R.id.spinner);
                 selected = spinner.getSelectedItem().toString();//get selected from spinner...
-                Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
+                Log.d("selected",selected);
                 HttpUrl.Builder builder = new HttpUrl.Builder()
                         .scheme("http")
-                        .host("127.0.0.1")
+                        .host("10.10.8.22")
                         .port(8000)
                         .addPathSegments("api/wallet/");
                 final HttpUrl url = builder.build();
@@ -62,6 +70,8 @@ public class AddWalletActivity extends AppCompatActivity {
                         .add("name", nameWallet)
                         .add("type", selected)
                         .build();
+                String basic = Credentials.basic(username, password);
+                Log.d("auth",basic);
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
@@ -79,7 +89,8 @@ public class AddWalletActivity extends AppCompatActivity {
                     Log.e("ewr4", e.getMessage());
                 }
             } catch (Exception e) {
-                Log.e("ewr", e.getMessage());
+                e.printStackTrace();
+//                Log.e("ewr", e.getMessage());
             }
             runOnUiThread(new Runnable() {
                 public void run()

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("username", username);
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme("http")
-                    .host("127.0.0.1")
+                    .host("10.10.8.22")
                     .port(8000)
                     .addPathSegments("api/register/");
             final HttpUrl url = builder.build();

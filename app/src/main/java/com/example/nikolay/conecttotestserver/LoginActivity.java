@@ -53,16 +53,27 @@ public class LoginActivity extends AppCompatActivity {
 
         private OkHttpClient client;
         private String result = "unknown";
+        String username;
+        String password;
+        Intent intent_addWallet;
+        Intent intent_walletList;
+
         @Override
         protected Void doInBackground(Void... voids) {
-            String username = ((EditText) findViewById(R.id.login)).getText().toString();
-            String password = ((EditText) findViewById(R.id.passwordinput)).getText().toString();
+             username = ((EditText) findViewById(R.id.login)).getText().toString();
+             password = ((EditText) findViewById(R.id.passwordinput)).getText().toString();
+            intent_addWallet = new Intent(LoginActivity.this, AddWalletActivity.class);
+            intent_addWallet.putExtra("username", username);
+            intent_addWallet.putExtra("password", password);
 
 
+
+            String basic = Credentials.basic(username, password);
+            Log.d("auth",basic);
 
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme("http")
-                    .host("127.0.0.1")
+                    .host("10.10.8.22")
                     .port(8000)
                     .addPathSegments("api/login/");
             final HttpUrl url = builder.build();
@@ -89,14 +100,17 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Void op) {
             TextView textView = (TextView) findViewById(R.id.infoOutput);
             if (result.isEmpty()) {
-            }else{
+            } else {
 
                 final Button button_add_wallet = (Button) findViewById(R.id.button_add_wallet);
                 final Intent intent = new Intent(LoginActivity.this, WalletActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("password", password);
                 textView.setText(result);
                 button_add_wallet.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        startActivity(intent_addWallet);
                         startActivity(intent);
                     }
                 });

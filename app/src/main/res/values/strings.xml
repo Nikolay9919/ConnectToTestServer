@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">conectToTestServer</string>
     <string-array name="Choise_type">
-        <item>Visa</item>
-        <item>Master card</item>
-        <item>Cash</item>
+        <item>visa</item>
+        <item>master</item>
+        <item>cash</item>
     </string-array>
 </resources>
