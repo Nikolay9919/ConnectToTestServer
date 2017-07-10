@@ -24,18 +24,20 @@ public class WalletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
-        Intent intent = getIntent();
+        Intent intent2 = getIntent();
 
-        username = intent.getStringExtra("username");
-        password = intent.getStringExtra("password");
+        username = intent2.getStringExtra("username");
+        password = intent2.getStringExtra("password");
         final Button button_add_wallet = (Button) findViewById(R.id.button_wallet);
 
         final Intent intent1 = new Intent(WalletActivity.this, AddWalletActivity.class);
         button_add_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                intent1.putExtra("username", username);
+                intent1.putExtra("password", password);
                 startActivity(intent1);
-            }
+                }
         });
         new HttpTask().execute();
 

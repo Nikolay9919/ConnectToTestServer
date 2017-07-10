@@ -37,7 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         });
         final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         final Button button_register = (Button) findViewById(R.id.button_registr);
-
+        ((EditText) findViewById(R.id.login)).setText("nik");
+        ((EditText) findViewById(R.id.passwordinput)).setText("nikolay123");
         button_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,20 +57,18 @@ public class LoginActivity extends AppCompatActivity {
         String username;
         String password;
         Intent intent_addWallet;
-        Intent intent_walletList;
+        Intent intent_EditProfile;
 
         @Override
         protected Void doInBackground(Void... voids) {
-             username = ((EditText) findViewById(R.id.login)).getText().toString();
-             password = ((EditText) findViewById(R.id.passwordinput)).getText().toString();
+            username = ((EditText) findViewById(R.id.login)).getText().toString();
+            password = ((EditText) findViewById(R.id.passwordinput)).getText().toString();
             intent_addWallet = new Intent(LoginActivity.this, AddWalletActivity.class);
             intent_addWallet.putExtra("username", username);
             intent_addWallet.putExtra("password", password);
 
-
-
             String basic = Credentials.basic(username, password);
-            Log.d("auth",basic);
+            Log.d("auth", basic);
 
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme("http")
@@ -102,20 +101,17 @@ public class LoginActivity extends AppCompatActivity {
             if (result.isEmpty()) {
             } else {
 
-                final Button button_add_wallet = (Button) findViewById(R.id.button_add_wallet);
-                final Intent intent = new Intent(LoginActivity.this, WalletActivity.class);
+
+                final Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);
                 textView.setText(result);
-                button_add_wallet.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(intent_addWallet);
-                        startActivity(intent);
-                    }
-                });
 
+                startActivity(intent);
             }
+
+
         }
     }
 }
+
