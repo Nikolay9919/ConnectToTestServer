@@ -8,31 +8,57 @@
     tools:context="com.example.nikolay.conecttotestserver.MainActivity">
 
 
-
-
-
-    <Button
-        android:id="@+id/edit_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Edit Profile" />
     <Button
         android:id="@+id/see_wallet_list"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="See wallet list" />
-    <Button
-        android:id="@+id/button_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Logout" />
+
     <Button
         android:id="@+id/update_wallet"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="update wallet" />
+
+    <Button
+        android:id="@+id/button_add_wallet"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="add wallet" />
+    <Button
+        android:id="@+id/button_delete_wallet"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="delete wallet" />
+    <Button
+        android:id="@+id/button_trans_type"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Transaction types" />
+
+    <Button
+        android:id="@+id/button_trans"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Transaction" />
+
+    <Button
+        android:id="@+id/edit_profile"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Edit Profile" />
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Logout" />
 </LinearLayout>

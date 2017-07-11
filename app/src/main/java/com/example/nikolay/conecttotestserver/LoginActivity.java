@@ -1,8 +1,6 @@
 package com.example.nikolay.conecttotestserver;
 
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -38,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         final Button button_register = (Button) findViewById(R.id.button_registr);
         ((EditText) findViewById(R.id.login)).setText("nik");
-        ((EditText) findViewById(R.id.passwordinput)).setText("nikolay123");
+        ((EditText) findViewById(R.id.passwordinput)).setText("nikolya123");
         button_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,13 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         public HttpTask() {
             client = new OkHttpClient.Builder().build();
         }
-
         private OkHttpClient client;
         private String result = "unknown";
         String username;
         String password;
         Intent intent_addWallet;
-        Intent intent_EditProfile;
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -66,10 +63,8 @@ public class LoginActivity extends AppCompatActivity {
             intent_addWallet = new Intent(LoginActivity.this, AddWalletActivity.class);
             intent_addWallet.putExtra("username", username);
             intent_addWallet.putExtra("password", password);
-
             String basic = Credentials.basic(username, password);
             Log.d("auth", basic);
-
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme("http")
                     .host("10.10.8.22")
@@ -99,18 +94,18 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Void op) {
             TextView textView = (TextView) findViewById(R.id.infoOutput);
             if (result.isEmpty()) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Incorrect login or password", Toast.LENGTH_LONG).show();
+                    }
+                });
             } else {
-
-
                 final Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);
                 textView.setText(result);
-
                 startActivity(intent);
             }
-
-
         }
     }
 }

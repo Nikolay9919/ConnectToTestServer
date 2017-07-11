@@ -37,6 +37,15 @@
         <activity android:name=".UpdateWalletActivity">
 
         </activity>
+        <activity android:name=".DeleteWalletActivity">
+
+        </activity>
+        <activity android:name=".TransTypeActivity">
+
+        </activity>
+        <activity android:name=".TransactionActivity">
+
+        </activity>
     </application>
 
 </manifest>

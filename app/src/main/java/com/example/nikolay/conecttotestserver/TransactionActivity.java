@@ -23,60 +23,52 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class UpdateWalletActivity extends AppCompatActivity {
+public class TransactionActivity extends AppCompatActivity {
     String username, password;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.update_activity_wallet);
+        setContentView(R.layout.activity_trans);
         Intent intent = getIntent();
 
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
         Log.d("ret", username);
-        final Button update_wallet = (Button) findViewById(R.id.button_wallet);
-        update_wallet.setOnClickListener(new View.OnClickListener() {
+        final Button trans = (Button) findViewById(R.id.button_id);
+        trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new HttpTask().execute();
             }
         });
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Choise_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        new HttpTask2().execute();
+
     }
 
     private class HttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
-        String selected = "Visa";
+
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-
             try {
-                String idWallet = ((EditText) findViewById(R.id.id_wallet_input)).getText().toString();
-                String nameWallet = ((EditText) findViewById(R.id.name_wallet_input)).getText().toString();
-                Spinner spinner = (Spinner) findViewById(R.id.spinner);
-                selected = spinner.getSelectedItem().toString();//get selected from spinner...
-
+                String idWallet = ((EditText) findViewById(R.id.wallet_id)).getText().toString();
+                String transValue = ((EditText) findViewById(R.id.trans_value)).getText().toString();
+                String transType = ((EditText) findViewById(R.id.trans_type)).getText().toString();
                 HttpUrl.Builder builder = new HttpUrl.Builder()
                         .scheme("http")
                         .host("10.10.8.22")
                         .port(8000)
-                        .addPathSegments("api/")
-                        .addPathSegment(idWallet)
-                        .addPathSegment("update/");
+                        .addPathSegments("api/transaction/");
                 final HttpUrl url = builder.build();
                 RequestBody reqbody = new FormBody.Builder()
-                        .add("name", nameWallet)
-                        .add("type", selected)
+                        .add("wallet_id", idWallet)
+                        .add("transaction_value", transValue)
+                        .add("transaction_type", transType)
                         .build();
                 Log.i("id", idWallet);
-                String basic = Credentials.basic(username, password);
-                Log.d("auth", basic);
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
@@ -111,13 +103,52 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void op) {
-            TextView textView = (TextView) findViewById(R.id.infoOutput);
-            if (result.contains("<!DOCTYPE html>")) {
-                textView.setText(result);
-                textView.setText("Check wallet id");
-            } else {
-                textView.setText(result);
-            }
+            TextView textView = (TextView) findViewById(R.id.text);
+
+            textView.setText(result);
+            new HttpTask2().execute();
         }
     }
+
+    private class HttpTask2 extends AsyncTask<Void, Void, Void> {
+        private OkHttpClient client = new OkHttpClient();
+        private String result = "unknown";
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpUrl.Builder builder = new HttpUrl.Builder()
+                    .scheme("http")
+                    .host("10.10.8.22")
+                    .port(8000)
+                    .addPathSegments("api/transaction/");
+            final HttpUrl url = builder.build();
+            Request request = new Request.Builder()
+                    .url(url.toString())
+                    .header("Authorization", Credentials.basic(username, password))
+                    .build();
+            Call newCall = client.newCall(request);
+            Response response;
+            try {
+                response = newCall.execute();
+                result = response.body().string();
+                Log.d("HttpTask2", result);
+            } catch (Exception e) {
+                result = e.getMessage();
+                e.printStackTrace();
+                Log.e("ewr4", e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void op) {
+            TextView textView = (TextView) findViewById(R.id.text);
+
+            textView.setText(result);
+        }
+
+
+    }
+
 }
+

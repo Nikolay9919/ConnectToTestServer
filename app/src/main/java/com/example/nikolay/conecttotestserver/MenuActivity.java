@@ -55,16 +55,7 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         });
-//        final Button logout = (Button) findViewById(R.id.logout);
-//        walletList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                startActivity(intent3);
-//                username = "null";
-//                password = "null";
-//            }
-//        });
+
         final Intent intent3 = new Intent(MenuActivity.this, LoginActivity.class);
         final Button logout = (Button) findViewById(R.id.button_logout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +75,56 @@ public class MenuActivity extends AppCompatActivity {
                 intent4.putExtra("username", username);
                 intent4.putExtra("password", password);
                 startActivity(intent4);
+            }
+        });
+        final Intent intent5 = new Intent(MenuActivity.this, AddWalletActivity.class);
+        final Button addWallet = (Button) findViewById(R.id.button_add_wallet);
+        addWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent5.putExtra("username", username);
+                intent5.putExtra("password", password);
+                startActivity(intent5);
+            }
+        });
+        final Intent intent6 = new Intent(MenuActivity.this, DeleteWalletActivity.class);
+        final Button deleteWallet = (Button) findViewById(R.id.button_delete_wallet);
+        deleteWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent6.putExtra("username", username);
+                intent6.putExtra("password", password);
+                startActivity(intent6);
+            }
+        });
+        final Intent intent7 = new Intent(MenuActivity.this, TransTypeActivity.class);
+        final Button transtype = (Button) findViewById(R.id.button_trans_type);
+        transtype.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent7.putExtra("username", username);
+                intent7.putExtra("password", password);
+                startActivity(intent7);
+            }
+        });
+        final Intent intent8 = new Intent(MenuActivity.this, TransTypeActivity.class);
+        final Button transType = (Button) findViewById(R.id.button_trans);
+        transType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent8.putExtra("username", username);
+                intent8.putExtra("password", password);
+                startActivity(intent8);
+            }
+        });
+        final Intent intent9 = new Intent(MenuActivity.this, TransactionActivity.class);
+        final Button trans = (Button) findViewById(R.id.button_trans);
+        trans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent9.putExtra("username", username);
+                intent9.putExtra("password", password);
+                startActivity(intent9);
             }
         });
     }
