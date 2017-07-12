@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import okhttp3.Call;
@@ -85,9 +86,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void op) {
-            TextView textView = (TextView) findViewById(R.id.text);
+            if (result.contains("Failed to connect")) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Failed to connect", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                TextView textView = (TextView) findViewById(R.id.text);
 
-            textView.setText(result);
+                textView.setText(result);
+            }
         }
     }
 }

@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         public HttpTask() {
             client = new OkHttpClient.Builder().build();
         }
+
         private OkHttpClient client;
         private String result = "unknown";
         String username;
@@ -100,13 +101,21 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                final Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                intent.putExtra("username", username);
-                intent.putExtra("password", password);
-                textView.setText(result);
-                startActivity(intent);
+                if (result.contains("Failed to connect")) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Failed to connect", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    final Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("password", password);
+                    textView.setText(result);
+                    startActivity(intent);
+                }
             }
         }
     }
-}
 
+}

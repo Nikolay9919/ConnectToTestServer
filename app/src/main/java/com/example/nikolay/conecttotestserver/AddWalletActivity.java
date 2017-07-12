@@ -13,6 +13,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.FormBody;
@@ -24,15 +27,16 @@ import okhttp3.Response;
 
 
 public class AddWalletActivity extends AppCompatActivity {
-    String username,password;
+    String username, password;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_activity_wallet);
         Intent intent = getIntent();
 
-         username = intent.getStringExtra("username");
-         password = intent.getStringExtra("password");
-        Log.d("ret",username);
+        username = intent.getStringExtra("username");
+        password = intent.getStringExtra("password");
+        Log.d("ret", username);
         final Button button_add_wallet = (Button) findViewById(R.id.button_wallet);
         button_add_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,12 +58,11 @@ public class AddWalletActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
 
-
             try {
                 String nameWallet = ((EditText) findViewById(R.id.name_wallet_input)).getText().toString();
                 Spinner spinner = (Spinner) findViewById(R.id.spinner);
-                selected = spinner.getSelectedItem().toString();//get selected from spinner...
-                Log.d("selected",selected);
+                selected = spinner.getSelectedItem().toString();
+                Log.d("selected", selected);
                 HttpUrl.Builder builder = new HttpUrl.Builder()
                         .scheme("http")
                         .host("10.10.8.22")
@@ -71,7 +74,7 @@ public class AddWalletActivity extends AppCompatActivity {
                         .add("type", selected)
                         .build();
                 String basic = Credentials.basic(username, password);
-                Log.d("auth",basic);
+                Log.d("auth", basic);
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
@@ -93,13 +96,10 @@ public class AddWalletActivity extends AppCompatActivity {
 //                Log.e("ewr", e.getMessage());
             }
             runOnUiThread(new Runnable() {
-                public void run()
-                {
-                    if (result.equals("unknown"))
-                    {
-                        Toast.makeText(getApplicationContext(), "Error",Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                public void run() {
+                    if (result.equals("unknown")) {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    } else {
                     }
                 }
             });
@@ -110,7 +110,7 @@ public class AddWalletActivity extends AppCompatActivity {
         protected void onPostExecute(Void op) {
             TextView textView = (TextView) findViewById(R.id.infoOutput);
 
-                textView.setText(result);
-            }
+            textView.setText(result);
         }
     }
+}

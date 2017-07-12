@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -80,8 +81,7 @@ public class WalletActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
-            return null;
+                return null;
         }
 
         @Override

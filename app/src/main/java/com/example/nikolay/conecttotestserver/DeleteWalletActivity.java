@@ -117,10 +117,3 @@ public class DeleteWalletActivity extends AppCompatActivity {
         }
     }
 }
-//       TextView textView = (TextView) findViewById(R.id.infoOutput);
-//            if (result.contains("<!DOCTYPE html>")) {
-//                    textView.setText(result);
-//                    textView.setText("Check wallet id");
-//                    } else {
-//                    textView.setText(result);
-//                    }
