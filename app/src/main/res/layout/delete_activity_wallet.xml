@@ -22,14 +22,17 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_weight="1"
-            android:text="Enter wallet id"
+            android:text="Choise wallet"
             android:textSize="18sp" />
-
+        <Spinner
+            android:id="@+id/spinner_idwall"
+            android:layout_width="0dp"
+            android:layout_height="41dp"
+            android:layout_weight="1" />
         <EditText
             android:id="@+id/id_wallet_input"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1" />
+            android:layout_height="40dp" />
     </LinearLayout>
 
 

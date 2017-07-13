@@ -15,18 +15,24 @@
         android:weightSum="2">
 
         <TextView
-            android:id="@+id/id_wallet"
+            android:id="@+id/id_wallet1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_weight="1"
-            android:text="Enter wallet id"
+            android:text="Enter wallet"
             android:textSize="18sp" />
 
+        <Spinner
+            android:id="@+id/spinner_idwall"
+            android:layout_width="0dp"
+            android:layout_height="41dp"
+            android:layout_weight="1" />
+
         <EditText
-            android:id="@+id/id_wallet_input"
+            android:id="@+id/id_wallet_input1"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1" />
@@ -51,7 +57,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/name_wallet_input"
+            android:id="@+id/name_wallet_input1"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1" />
@@ -94,11 +100,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Add wallet" />
-
-    <Spinner
-        android:id="@+id/spinner_idwall"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content" />
+        android:text="Update wallet" />
 
 </LinearLayout>

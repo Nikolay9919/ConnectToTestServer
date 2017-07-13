@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -64,13 +65,20 @@ public class LoginActivity extends AppCompatActivity {
             intent_addWallet = new Intent(LoginActivity.this, AddWalletActivity.class);
             intent_addWallet.putExtra("username", username);
             intent_addWallet.putExtra("password", password);
-            String basic = Credentials.basic(username, password);
-            Log.d("auth", basic);
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme("http")
                     .host("10.10.8.22")
                     .port(8000)
                     .addPathSegments("api/login/");
+//            HttpUrl.Builder builder1 = new HttpUrl.Builder();
+//                    builder1.getClass().getResourceAsStream("config.properties");
+//            try {
+//                String builder2 = builder1.toString(Util.getProperty("builder"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+
             final HttpUrl url = builder.build();
             RequestBody reqbody = new FormBody.Builder()
                     .build();

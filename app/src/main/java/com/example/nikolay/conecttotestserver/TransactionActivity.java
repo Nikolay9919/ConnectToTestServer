@@ -6,12 +6,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nikolay.conecttotestserver.models.Wallet;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -42,17 +50,67 @@ public class TransactionActivity extends AppCompatActivity {
             }
         });
         new HttpTask2().execute();
+        new getWalletsTask().execute();
+    }
 
+    private class getWalletsTask extends AsyncTask<Void, Void, Void> {
+        private OkHttpClient client = new OkHttpClient();
+        private String result = "unknown";
+        List<Wallet> wallets = Collections.emptyList();
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpUrl.Builder builder = new HttpUrl.Builder()
+                    .scheme("http")
+                    .host("10.10.8.22")
+                    .port(8000)
+                    .addPathSegments("api/wallet/");
+            final HttpUrl url = builder.build();
+            Request request = new Request.Builder()
+                    .url(url.toString())
+                    .header("Authorization", Credentials.basic(username, password))
+                    .build();
+            Call newCall = client.newCall(request);
+            Response response;
+            try {
+                response = newCall.execute();
+                result = response.body().string();
+                ObjectMapper objectMapper = new ObjectMapper();
+                wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void op) {
+            Spinner spinId = (Spinner) findViewById(R.id.spinner_idwall);
+            ArrayAdapter<Wallet> adapter1 = new ArrayAdapter<>(TransactionActivity.this, android.R.layout.simple_spinner_item, wallets);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinId.setAdapter(adapter1);
+            spinId.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                            Wallet selectedW = wallets.get(position);
+                            ((EditText) findViewById(R.id.wallet_id)).setText(String.valueOf(selectedW.getId()));
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parentView) {
+                        }
+                    });
+        }
     }
 
     private class HttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
 
-
         @Override
         protected Void doInBackground(Void... voids) {
-
             try {
                 String idWallet = ((EditText) findViewById(R.id.wallet_id)).getText().toString();
                 String transValue = ((EditText) findViewById(R.id.trans_value)).getText().toString();
@@ -97,7 +155,6 @@ public class TransactionActivity extends AppCompatActivity {
                     }
                 }
             });
-
             return null;
         }
 
@@ -146,9 +203,6 @@ public class TransactionActivity extends AppCompatActivity {
 
             textView.setText(result);
         }
-
-
     }
-
 }
 
