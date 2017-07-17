@@ -19,9 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -58,6 +56,7 @@ public class DeleteWalletActivity extends AppCompatActivity {
         });
         new getWalletsTask().execute();
     }
+
     private class getWalletsTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
@@ -104,6 +103,7 @@ public class DeleteWalletActivity extends AppCompatActivity {
                             ((EditText) findViewById(R.id.id_wallet_input)).setText(String.valueOf(selectedW.getId()));
                             Spinner spinner = (Spinner) findViewById(R.id.spinner);
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parentView) {
                             // your code here
@@ -111,6 +111,7 @@ public class DeleteWalletActivity extends AppCompatActivity {
                     });
         }
     }
+
     private class HttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
@@ -119,10 +120,13 @@ public class DeleteWalletActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             try {
                 String idWallet = ((EditText) findViewById(R.id.id_wallet_input)).getText().toString();
+                String host = Util.getFilePathToSave("host");
+                String port = Util.getFilePathToSave("port");
+                String ht = Util.getFilePathToSave("scheme");
                 HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme("http")
-                        .host("10.10.8.22")
-                        .port(8000)
+                        .scheme(ht)
+                        .host(host)
+                        .port(Integer.parseInt(port))
                         .addPathSegments("api/")
                         .addPathSegment(idWallet)
                         .addPathSegment("update/");

@@ -52,11 +52,15 @@ public class TransTypeActivity extends AppCompatActivity {
 
             try {
                 String transtype = ((EditText) findViewById(R.id.type)).getText().toString();
+                String ht = Util.getFilePathToSave("scheme");
+                String host = Util.getFilePathToSave("host");
+                String port = Util.getFilePathToSave("port");
+                String type = Util.getFilePathToSave("pathType");
                 HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme("http")
-                        .host("10.10.8.22")
-                        .port(8000)
-                        .addPathSegments("api/type/");
+                        .scheme(ht)
+                        .host(host)
+                        .port(Integer.parseInt(port))
+                        .addPathSegments(type);
                 final HttpUrl url = builder.build();
                 RequestBody reqbody = new FormBody.Builder()
                         .add("trans_type", transtype)

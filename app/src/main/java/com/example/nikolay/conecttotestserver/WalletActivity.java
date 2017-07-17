@@ -58,11 +58,15 @@ public class WalletActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            String ht = Util.getFilePathToSave("scheme");
+            String host = Util.getFilePathToSave("host");
+            String port = Util.getFilePathToSave("port");
+            String walle = Util.getFilePathToSave("pathWallet");
             HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("10.10.8.22")
-                    .port(8000)
-                    .addPathSegments("api/wallet/");
+                    .scheme(ht)
+                    .host(host)
+                    .port(Integer.parseInt(port))
+                    .addPathSegments(walle);
             final HttpUrl url = builder.build();
             Request request = new Request.Builder()
                     .url(url.toString())

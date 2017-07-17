@@ -11,8 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.FormBody;
@@ -65,28 +63,28 @@ public class LoginActivity extends AppCompatActivity {
             intent_addWallet = new Intent(LoginActivity.this, AddWalletActivity.class);
             intent_addWallet.putExtra("username", username);
             intent_addWallet.putExtra("password", password);
-            HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("10.10.8.22")
-                    .port(8000)
-                    .addPathSegments("api/login/");
-//            HttpUrl.Builder builder1 = new HttpUrl.Builder();
-//                    builder1.getClass().getResourceAsStream("config.properties");
-//            try {
-//                String builder2 = builder1.toString(Util.getProperty("builder"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            String host = Util.getFilePathToSave("host");
+            String port = Util.getFilePathToSave("port");
+            String login = Util.getFilePathToSave("pathLogin");
+            String ht = Util.getFilePathToSave("scheme");
 
+            HttpUrl.Builder builder = new HttpUrl.Builder()
+                    .scheme(ht)
+                    .host(host)
+                    .port(Integer.parseInt(port))
+                    .addPathSegments(login);
 
             final HttpUrl url = builder.build();
+
             RequestBody reqbody = new FormBody.Builder()
                     .build();
+
             Request request = new Request.Builder()
                     .url(url.toString())
                     .post(reqbody)
                     .header("Authorization", Credentials.basic(username, password))
                     .build();
+
             Call newCall = client.newCall(request);
             Response response;
             try {

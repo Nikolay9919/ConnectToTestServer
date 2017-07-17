@@ -41,9 +41,8 @@ public class Wallet {
 
     @Override
     public String toString() {
-        return "type='" + type + '\'' +
-                ", id=" + id +
-                ", owner_id=" + owner_id +
-                ", name='" + name + '\'';
+        return " name = " + name+
+        ", type = " + type
+                 ;
     }
 }

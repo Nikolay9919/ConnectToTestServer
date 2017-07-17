@@ -2,8 +2,8 @@ package com.example.nikolay.conecttotestserver;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import okhttp3.Call;
 import okhttp3.FormBody;
@@ -55,12 +54,15 @@ public class MainActivity extends AppCompatActivity {
             String password1 = ((EditText) findViewById(R.id.password1)).getText().toString();
             String password2 = ((EditText) findViewById(R.id.password2)).getText().toString();
             String email = ((EditText) findViewById(R.id.email)).getText().toString();
-            Log.d("username", username);
+            String ht = Util.getFilePathToSave("scheme");
+            String host = Util.getFilePathToSave("host");
+            String port = Util.getFilePathToSave("port");
+            String register = Util.getFilePathToSave("pathRegister");
             HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("10.10.8.22")
-                    .port(8000)
-                    .addPathSegments("api/register/");
+                    .scheme(ht)
+                    .host(host)
+                    .port(Integer.parseInt(port))
+                    .addPathSegments(register);
             final HttpUrl url = builder.build();
             RequestBody reqbody = new FormBody.Builder()
                     .add("username", username)

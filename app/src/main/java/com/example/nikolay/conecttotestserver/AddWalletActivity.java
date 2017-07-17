@@ -63,11 +63,17 @@ public class AddWalletActivity extends AppCompatActivity {
                 Spinner spinner = (Spinner) findViewById(R.id.spinner);
                 selected = spinner.getSelectedItem().toString();
                 Log.d("selected", selected);
+                String host = Util.getFilePathToSave("host");
+                String port = Util.getFilePathToSave("port");
+                String wallet = Util.getFilePathToSave("pathWallet");
+                String ht = Util.getFilePathToSave("scheme");
+
                 HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme("http")
-                        .host("10.10.8.22")
-                        .port(8000)
-                        .addPathSegments("api/wallet/");
+                        .scheme(ht)
+                        .host(host)
+                        .port(Integer.parseInt(port))
+                        .addPathSegments(wallet);
+
                 final HttpUrl url = builder.build();
                 RequestBody reqbody = new FormBody.Builder()
                         .add("name", nameWallet)

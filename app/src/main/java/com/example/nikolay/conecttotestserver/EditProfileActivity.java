@@ -62,14 +62,18 @@ public class EditProfileActivity extends AppCompatActivity {
             String firstName = ((EditText) findViewById(R.id.first_name_input)).getText().toString();
             String lastName = ((EditText) findViewById(R.id.last_name_input)).getText().toString();
             String email = ((EditText) findViewById(R.id.email_input)).getText().toString();
+            String host = Util.getFilePathToSave("host");
+            String port = Util.getFilePathToSave("port");
+            String edit = Util.getFilePathToSave("pathEdit");
+            String ht = Util.getFilePathToSave("scheme");
             try {
 
 
                 HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme("http")
-                        .host("10.10.8.22")
-                        .port(8000)
-                        .addPathSegments("api/edit/");
+                        .scheme(ht)
+                        .host(host)
+                        .port(Integer.parseInt(port))
+                        .addPathSegments(edit);
                 final HttpUrl url = builder.build();
                 Log.d("usr", username_edit);
                 Log.d("psw", password_edit);

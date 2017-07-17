@@ -61,6 +61,9 @@ public class UpdateWalletActivity extends AppCompatActivity {
         });
 
     }
+    String ht = Util.getFilePathToSave("scheme");
+    String host = Util.getFilePathToSave("host");
+    String port = Util.getFilePathToSave("port");
 
     private class getWalletsTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
@@ -69,11 +72,12 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            String wallet = Util.getFilePathToSave("pathWallet");
             HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("10.10.8.22")
-                    .port(8000)
-                    .addPathSegments("api/wallet/");
+                    .scheme(ht)
+                    .host(host)
+                    .port(Integer.parseInt(port))
+                    .addPathSegments(wallet);
             final HttpUrl url = builder.build();
             Request request = new Request.Builder()
                     .url(url.toString())
@@ -87,10 +91,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
                 ObjectMapper objectMapper = new ObjectMapper();
                 wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
                 });
-//                Document doc = Jsoup.parse(result);
-//                Elements nameElement;
-//                nameElement = doc.select("name");
-//                    Log.d("name", String.valueOf(nameElement));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,8 +109,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
                             Wallet selectedW = wallets.get(position);
-//                            Log.d("yyy" ,"---"+((EditText) findViewById(R.id.id_wallet_input)).getText().toString());
-//                            Log.d("yyy" ,"---"+((EditText) findViewById(R.id.name_wallet_input)).getText().toString());
 
                             ((EditText) findViewById(R.id.id_wallet_input1)).setText(String.valueOf(selectedW.getId()));
                             ((EditText) findViewById(R.id.name_wallet_input1)).setText(selectedW.getName());
@@ -123,8 +121,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
                             spinner.setSelection(types.get(selectedW.getType()));
                             spinner.setSelection(types.get(selectedW.getType()));
-//                            Log.d("qqq", position + "");
-//                            Log.d("qqq", selectedW.toString());
                         }
 
                         @Override
@@ -155,9 +151,9 @@ public class UpdateWalletActivity extends AppCompatActivity {
                 Spinner spinner = (Spinner) findViewById(R.id.spinner);
                 selected = spinner.getSelectedItem().toString();
                 HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme("http")
-                        .host("10.10.8.22")
-                        .port(8000)
+                        .scheme(ht)
+                        .host(host)
+                        .port(Integer.parseInt(port))
                         .addPathSegments("api/")
                         .addPathSegment(idWallet)
                         .addPathSegment("update/");
@@ -198,7 +194,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
             TextView textView = (TextView) findViewById(R.id.infoOutput);
             if (result.contains("<!DOCTYPE html>")) {
-                textView.setText(result);
                 textView.setText("Check wallet id");
             } else {
                 textView.setText(sb.toString());
