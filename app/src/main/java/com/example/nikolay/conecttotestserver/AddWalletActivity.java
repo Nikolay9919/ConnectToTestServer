@@ -70,14 +70,14 @@ public class AddWalletActivity extends AppCompatActivity {
                         .addPathSegments(wallet);
 
                 final HttpUrl url = builder.build();
-                RequestBody reqbody = new FormBody.Builder()
+                RequestBody rebody = new FormBody.Builder()
                         .add("name", nameWallet)
                         .add("type", selected)
                         .build();
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
-                        .post(reqbody)
+                        .post(rebody)
                         .build();
                 Call newCall = client.newCall(request);
                 Response response;

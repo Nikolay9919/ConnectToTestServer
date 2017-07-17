@@ -65,7 +65,6 @@ public class EditProfileActivity extends AppCompatActivity {
             String ht = Util.getFilePathToSave("scheme");
             try {
 
-
                 HttpUrl.Builder builder = new HttpUrl.Builder()
                         .scheme(ht)
                         .host(host)
