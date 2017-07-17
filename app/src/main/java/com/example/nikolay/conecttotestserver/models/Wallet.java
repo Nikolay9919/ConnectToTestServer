@@ -1,6 +1,8 @@
 package com.example.nikolay.conecttotestserver.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Wallet {
     private String type;
     private Integer id;

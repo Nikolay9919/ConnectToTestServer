@@ -13,14 +13,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import okhttp3.Call;
+import com.example.nikolay.conecttotestserver.models.Wallet;
+import com.example.nikolay.connecttotestserver.apiwrappers.UnautorisedException;
+import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
+
+import java.io.IOException;
+
 import okhttp3.Credentials;
-import okhttp3.FormBody;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class AddWalletActivity extends AppCompatActivity {
     String username, password;
@@ -47,66 +46,42 @@ public class AddWalletActivity extends AppCompatActivity {
     }
 
     private class HttpTask extends AsyncTask<Void, Void, Void> {
-        private OkHttpClient client = new OkHttpClient();
-        private String result = "unknown";
-        String selected = "Visa";
+        Wallet w = new Wallet();
+        Wallet result;
 
         @Override
         protected Void doInBackground(Void... voids) {
+            w.setName(((EditText) findViewById(R.id.name_wallet_input)).getText().toString());
+            Spinner spinner = (Spinner) findViewById(R.id.spinner);
+            w.setType(spinner.getSelectedItem().toString());
+            String auth = Credentials.basic(username, password);
             try {
-                String nameWallet = ((EditText) findViewById(R.id.name_wallet_input)).getText().toString();
-                Spinner spinner = (Spinner) findViewById(R.id.spinner);
-                selected = spinner.getSelectedItem().toString();
-                Log.d("selected", selected);
-                String host = Util.getFilePathToSave("host");
-                String port = Util.getFilePathToSave("port");
-                String wallet = Util.getFilePathToSave("pathWallet");
-                String ht = Util.getFilePathToSave("scheme");
-
-                HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme(ht)
-                        .host(host)
-                        .port(Integer.parseInt(port))
-                        .addPathSegments(wallet);
-
-                final HttpUrl url = builder.build();
-                RequestBody rebody = new FormBody.Builder()
-                        .add("name", nameWallet)
-                        .add("type", selected)
-                        .build();
-                Request request = new Request.Builder()
-                        .url(url.toString())
-                        .header("Authorization", Credentials.basic(username, password))
-                        .post(rebody)
-                        .build();
-                Call newCall = client.newCall(request);
-                Response response;
-                try {
-                    response = newCall.execute();
-                    result = response.body().string();
-                } catch (Exception e) {
-                    result = e.getMessage();
-                    e.printStackTrace();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (result.equals("unknown")) {
+                result = WalletResource.add(w, auth);
+            } catch (UnautorisedException ex) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Log.d("HttpTask", "Error");
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                    } else {
                     }
-                }
-            });
+                });
+            } catch (final IOException ex) {
+                Log.d("HttpTask", ex.getMessage());
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void op) {
-            TextView textView = (TextView) findViewById(R.id.infoOutput);
+            if (result != null) {
+                TextView textView = (TextView) findViewById(R.id.infoOutput);
 
-            textView.setText(result);
+                textView.setText(result.toString());
+            }
         }
     }
 }
