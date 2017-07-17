@@ -118,7 +118,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
                             spinner.setSelection(types.get(selectedW.getType()));
                             spinner.setSelection(types.get(selectedW.getType()));
                         }
-
                         @Override
                         public void onNothingSelected(AdapterView<?> parentView) {
                             // your code here
@@ -183,6 +182,7 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void op) {
+
             TextView textView = (TextView) findViewById(R.id.infoOutput);
             if (result.contains("<!DOCTYPE html>")) {
                 textView.setText("Check wallet id");

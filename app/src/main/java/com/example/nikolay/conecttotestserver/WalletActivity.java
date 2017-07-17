@@ -8,19 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.nikolay.conecttotestserver.models.Wallet;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
 
-import java.util.Collections;
-import java.util.List;
-
-import okhttp3.Call;
 import okhttp3.Credentials;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class WalletActivity extends AppCompatActivity {
     String username, password;
@@ -47,54 +37,23 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     private class GetWalletsTask extends AsyncTask<Void, Void, Void> {
-        private OkHttpClient client = new OkHttpClient();
-        List<Wallet> wallets = Collections.emptyList();
-        private String result = "";
-        private String errorMessage;
+
+
+        StringBuilder result;
 
         @Override
         protected Void doInBackground(Void... voids) {
-            String ht = Util.getFilePathToSave("scheme");
-            String host = Util.getFilePathToSave("host");
-            String port = Util.getFilePathToSave("port");
-            String wallet = Util.getFilePathToSave("pathWallet");
-            HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme(ht)
-                    .host(host)
-                    .port(Integer.parseInt(port))
-                    .addPathSegments(wallet);
-            final HttpUrl url = builder.build();
-            Request request = new Request.Builder()
-                    .url(url.toString())
-                    .header("Authorization", Credentials.basic(username, password))
-                    .build();
-            Call newCall = client.newCall(request);
-            Response response;
-            try {
-                response = newCall.execute();
-                result = response.body().string();
-                ObjectMapper objectMapper = new ObjectMapper();
-                wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
-                });
-            } catch (Exception e) {
-                errorMessage = e.getMessage();
-                e.printStackTrace();
-            }
+
+            String auth = Credentials.basic(username, password);
+            result = WalletResource.get(auth);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void op) {
             TextView textView = (TextView) findViewById(R.id.infoOutput);
-            if (errorMessage != null) {
-                textView.setText(errorMessage + " :\n" + result);
-            }
-            StringBuilder sb = new StringBuilder();
-            for (Wallet wallet : wallets) {
-                sb.append(wallet.toString())
-                        .append(" \n");
-            }
-            textView.setText(sb.toString());
+
+            textView.setText(result);
         }
     }
 }

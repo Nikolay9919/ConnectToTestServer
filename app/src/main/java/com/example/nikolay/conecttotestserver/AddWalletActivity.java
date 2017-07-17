@@ -72,6 +72,7 @@ public class AddWalletActivity extends AppCompatActivity {
                     }
                 });
             }
+
             return null;
         }
 

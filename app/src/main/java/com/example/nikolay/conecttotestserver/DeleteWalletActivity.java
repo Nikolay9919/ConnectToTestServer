@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nikolay.conecttotestserver.models.Wallet;
+import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -112,52 +113,13 @@ public class DeleteWalletActivity extends AppCompatActivity {
     }
 
     private class HttpTask extends AsyncTask<Void, Void, Void> {
-        private OkHttpClient client = new OkHttpClient();
-        private String result = "unknown";
 
+        String result;
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
-                String idWallet = ((EditText) findViewById(R.id.id_wallet_input)).getText().toString();
-                String host = Util.getFilePathToSave("host");
-                String port = Util.getFilePathToSave("port");
-                String ht = Util.getFilePathToSave("scheme");
-                HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme(ht)
-                        .host(host)
-                        .port(Integer.parseInt(port))
-                        .addPathSegments("api/")
-                        .addPathSegment(idWallet)
-                        .addPathSegment("update/");
-                final HttpUrl url = builder.build();
-                RequestBody reqbody = new FormBody.Builder()
-                        .add("id", idWallet)
-                        .build();
-                Request request = new Request.Builder()
-                        .url(url.toString())
-                        .header("Authorization", Credentials.basic(username, password))
-                        .delete(reqbody)
-                        .build();
-                Call newCall = client.newCall(request);
-                Response response;
-                try {
-                    response = newCall.execute();
-                    result = response.body().string();
-                } catch (Exception e) {
-                    result = e.getMessage();
-                    e.printStackTrace();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (result.equals("unknown")) {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                    } else {
-                    }
-                }
-            });
+            String auth = Credentials.basic(username, password);
+            String idWallet = ((EditText) findViewById(R.id.id_wallet_input)).getText().toString();
+            result = WalletResource.delete(auth,idWallet);
             return null;
         }
 
