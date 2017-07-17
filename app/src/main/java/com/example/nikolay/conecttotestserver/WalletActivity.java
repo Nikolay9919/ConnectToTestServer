@@ -12,11 +12,8 @@ import com.example.nikolay.conecttotestserver.models.Wallet;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -47,7 +44,6 @@ public class WalletActivity extends AppCompatActivity {
             }
         });
         new GetWalletsTask().execute();
-
     }
 
     private class GetWalletsTask extends AsyncTask<Void, Void, Void> {
@@ -61,12 +57,12 @@ public class WalletActivity extends AppCompatActivity {
             String ht = Util.getFilePathToSave("scheme");
             String host = Util.getFilePathToSave("host");
             String port = Util.getFilePathToSave("port");
-            String walle = Util.getFilePathToSave("pathWallet");
+            String wallet = Util.getFilePathToSave("pathWallet");
             HttpUrl.Builder builder = new HttpUrl.Builder()
                     .scheme(ht)
                     .host(host)
                     .port(Integer.parseInt(port))
-                    .addPathSegments(walle);
+                    .addPathSegments(wallet);
             final HttpUrl url = builder.build();
             Request request = new Request.Builder()
                     .url(url.toString())
@@ -84,8 +80,7 @@ public class WalletActivity extends AppCompatActivity {
                 errorMessage = e.getMessage();
                 e.printStackTrace();
             }
-
-                return null;
+            return null;
         }
 
         @Override
@@ -100,7 +95,6 @@ public class WalletActivity extends AppCompatActivity {
                         .append(" \n");
             }
             textView.setText(sb.toString());
-
         }
     }
 }

@@ -24,6 +24,7 @@
             android:layout_weight="1"
             android:text="Choise wallet"
             android:textSize="18sp" />
+
         <Spinner
             android:id="@+id/spinner_idwall"
             android:layout_width="0dp"

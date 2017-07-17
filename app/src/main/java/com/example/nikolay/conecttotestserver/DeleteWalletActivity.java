@@ -42,7 +42,6 @@ public class DeleteWalletActivity extends AppCompatActivity {
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
         final Intent intent1 = new Intent(DeleteWalletActivity.this, MenuActivity.class);
-        Log.d("ret", username);
         final Button delete_wallet = (Button) findViewById(R.id.button_delete_wallet);
         delete_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,9 +133,6 @@ public class DeleteWalletActivity extends AppCompatActivity {
                 RequestBody reqbody = new FormBody.Builder()
                         .add("id", idWallet)
                         .build();
-                Log.i("id", idWallet);
-                String basic = Credentials.basic(username, password);
-                Log.d("auth", basic);
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
@@ -147,11 +143,9 @@ public class DeleteWalletActivity extends AppCompatActivity {
                 try {
                     response = newCall.execute();
                     result = response.body().string();
-                    Log.d("ree", result);
                 } catch (Exception e) {
                     result = e.getMessage();
                     e.printStackTrace();
-                    Log.e("ewr4", e.getMessage());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

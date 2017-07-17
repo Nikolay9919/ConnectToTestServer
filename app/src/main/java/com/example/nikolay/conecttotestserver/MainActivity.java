@@ -22,14 +22,12 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button = (Button) findViewById(R.id.button_id);
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("click", "click");
                 new HttpTask().execute();
             }
         });
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             String username = ((EditText) findViewById(R.id.UserName)).getText().toString();
             String password1 = ((EditText) findViewById(R.id.password1)).getText().toString();
             String password2 = ((EditText) findViewById(R.id.password2)).getText().toString();
@@ -96,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             } else {
                 TextView textView = (TextView) findViewById(R.id.text);
-
                 textView.setText(result);
             }
         }

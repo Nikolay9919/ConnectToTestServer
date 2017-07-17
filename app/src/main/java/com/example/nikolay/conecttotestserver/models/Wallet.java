@@ -42,7 +42,7 @@ public class Wallet {
     @Override
     public String toString() {
         return " name = " + name+
-        ", type = " + type
+        ", type = " + type +" \n"
                  ;
     }
 }

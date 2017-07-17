@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("click", "click");
                 new LoginActivity.HttpTask().execute();
             }
         });

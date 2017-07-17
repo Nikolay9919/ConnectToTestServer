@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +31,6 @@ public class TransTypeActivity extends AppCompatActivity {
 
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-        Log.d("ret", username);
         final Button button_add_type = (Button) findViewById(R.id.button_add_type);
         button_add_type.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,11 +72,9 @@ public class TransTypeActivity extends AppCompatActivity {
                 try {
                     response = newCall.execute();
                     result = response.body().string();
-                    Log.d("ree", result);
                 } catch (Exception e) {
                     result = e.getMessage();
                     e.printStackTrace();
-                    Log.e("ewr4", e.getMessage());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

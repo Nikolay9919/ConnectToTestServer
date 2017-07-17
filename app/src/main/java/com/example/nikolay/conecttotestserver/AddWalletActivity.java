@@ -13,9 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.FormBody;
@@ -24,7 +21,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
 
 public class AddWalletActivity extends AppCompatActivity {
     String username, password;
@@ -57,7 +53,6 @@ public class AddWalletActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             try {
                 String nameWallet = ((EditText) findViewById(R.id.name_wallet_input)).getText().toString();
                 Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -79,8 +74,6 @@ public class AddWalletActivity extends AppCompatActivity {
                         .add("name", nameWallet)
                         .add("type", selected)
                         .build();
-                String basic = Credentials.basic(username, password);
-                Log.d("auth", basic);
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
@@ -91,15 +84,12 @@ public class AddWalletActivity extends AppCompatActivity {
                 try {
                     response = newCall.execute();
                     result = response.body().string();
-                    Log.d("ree", result);
                 } catch (Exception e) {
                     result = e.getMessage();
                     e.printStackTrace();
-                    Log.e("ewr4", e.getMessage());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-//                Log.e("ewr", e.getMessage());
             }
             runOnUiThread(new Runnable() {
                 public void run() {

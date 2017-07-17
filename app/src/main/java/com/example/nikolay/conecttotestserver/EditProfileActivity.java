@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +29,6 @@ public class EditProfileActivity extends AppCompatActivity {
 //
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-        Log.d("ret", username);
         final Button edit = (Button) findViewById(R.id.button_edit);
 
         edit.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
         backMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startActivity(intent1);
+                startActivity(intent1);
             }
         });
     }
@@ -52,7 +50,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private class HttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
-
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -75,12 +72,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         .port(Integer.parseInt(port))
                         .addPathSegments(edit);
                 final HttpUrl url = builder.build();
-                Log.d("usr", username_edit);
-                Log.d("psw", password_edit);
-                Log.d("fn", firstName);
-                Log.d("ls", lastName);
-                Log.d("em", email);
-
                 RequestBody reqbody = new FormBody.Builder()
                         .add("username", username_edit)
                         .add("password", password_edit)
@@ -88,8 +79,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         .add("last_name", lastName)
                         .add("email", email)
                         .build();
-                String basic = Credentials.basic(username, password);
-                Log.d("auth", basic);
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
@@ -101,15 +90,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 try {
                     response = newCall.execute();
                     result = response.body().string();
-                    Log.d("ree", result);
                 } catch (Exception e) {
                     result = e.getMessage();
                     e.printStackTrace();
-                    Log.e("ewr4", e.getMessage());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("ewr", e.getMessage());
             }
 
             return null;
@@ -118,7 +104,6 @@ public class EditProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void op) {
             TextView textView = (TextView) findViewById(R.id.infoOutput);
-
             textView.setText(result);
         }
     }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +32,7 @@ import okhttp3.Response;
 
 
 public class UpdateWalletActivity extends AppCompatActivity {
-    String username, password;//, selected1;
+    String username, password;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +41,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-        Log.d("ret", username);
-
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Choise_type, android.R.layout.simple_spinner_item);
@@ -61,6 +58,7 @@ public class UpdateWalletActivity extends AppCompatActivity {
         });
 
     }
+
     String ht = Util.getFilePathToSave("scheme");
     String host = Util.getFilePathToSave("host");
     String port = Util.getFilePathToSave("port");
@@ -107,7 +105,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
                     new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
                             Wallet selectedW = wallets.get(position);
 
                             ((EditText) findViewById(R.id.id_wallet_input1)).setText(String.valueOf(selectedW.getId()));
@@ -118,7 +115,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
                             types.put("master", 1);
                             types.put("cash", 2);
 
-
                             spinner.setSelection(types.get(selectedW.getType()));
                             spinner.setSelection(types.get(selectedW.getType()));
                         }
@@ -127,11 +123,7 @@ public class UpdateWalletActivity extends AppCompatActivity {
                         public void onNothingSelected(AdapterView<?> parentView) {
                             // your code here
                         }
-
-
                     });
-
-
         }
     }
 
@@ -191,7 +183,6 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void op) {
-
             TextView textView = (TextView) findViewById(R.id.infoOutput);
             if (result.contains("<!DOCTYPE html>")) {
                 textView.setText("Check wallet id");

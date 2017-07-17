@@ -23,17 +23,8 @@ public final class Util {
     }
 
     public static String getFilePathToSave(String property) {
-
-
         String value = "";
-
-
         value = prop.getProperty(property);
-
-
         return value;
-
     }
-
-
 }

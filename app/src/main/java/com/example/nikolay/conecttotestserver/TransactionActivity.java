@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nikolay.conecttotestserver.models.Wallet;
@@ -30,7 +28,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
 public class TransactionActivity extends AppCompatActivity {
     String username, password;
 
@@ -41,7 +38,6 @@ public class TransactionActivity extends AppCompatActivity {
 
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-        Log.d("ret", username);
         final Button trans = (Button) findViewById(R.id.button_id);
         trans.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +103,7 @@ public class TransactionActivity extends AppCompatActivity {
 
     private class HttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
-        private String result = "unknown";
+        private String result1 = "unknown";
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -130,7 +126,6 @@ public class TransactionActivity extends AppCompatActivity {
                         .add("transaction_value", transValue)
                         .add("transaction_type", transType)
                         .build();
-                Log.i("id", idWallet);
                 Request request = new Request.Builder()
                         .url(url.toString())
                         .header("Authorization", Credentials.basic(username, password))
@@ -140,12 +135,10 @@ public class TransactionActivity extends AppCompatActivity {
                 Response response;
                 try {
                     response = newCall.execute();
-                    result = response.body().string();
-                    Log.d("ree", result);
+                    result1 = response.body().string();
                 } catch (Exception e) {
-                    result = e.getMessage();
+                    result1 = e.getMessage();
                     e.printStackTrace();
-                    Log.e("ewr4", e.getMessage());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -153,7 +146,7 @@ public class TransactionActivity extends AppCompatActivity {
             }
             runOnUiThread(new Runnable() {
                 public void run() {
-                    if (result.equals("unknown")) {
+                    if (result1.equals("unknown")) {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                     } else {
                     }
@@ -164,9 +157,6 @@ public class TransactionActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void op) {
-            TextView textView = (TextView) findViewById(R.id.text);
-
-            textView.setText(result);
             new HttpTask2().execute();
         }
     }
@@ -192,20 +182,15 @@ public class TransactionActivity extends AppCompatActivity {
             try {
                 response = newCall.execute();
                 result = response.body().string();
-                Log.d("HttpTask2", result);
             } catch (Exception e) {
                 result = e.getMessage();
                 e.printStackTrace();
-                Log.e("ewr4", e.getMessage());
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void op) {
-            TextView textView = (TextView) findViewById(R.id.text);
-
-            textView.setText(result);
         }
     }
 }
