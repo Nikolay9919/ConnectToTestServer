@@ -22,12 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Call;
 import okhttp3.Credentials;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 public class UpdateWalletActivity extends AppCompatActivity {
@@ -60,31 +55,16 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
 
     private class getWalletsTask extends AsyncTask<Void, Void, Void> {
-        private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
         List<Wallet> wallets = Collections.emptyList();
-        String ht = Util.getFilePathToSave("scheme");
-        String host = Util.getFilePathToSave("host");
-        String port = Util.getFilePathToSave("port");
 
         @Override
         protected Void doInBackground(Void... voids) {
-            String wallet = Util.getFilePathToSave("pathWallet");
-            HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme(ht)
-                    .host(host)
-                    .port(Integer.parseInt(port))
-                    .addPathSegments(wallet);
-            final HttpUrl url = builder.build();
-            Request request = new Request.Builder()
-                    .url(url.toString())
-                    .header("Authorization", Credentials.basic(username, password))
-                    .build();
-            Call newCall = client.newCall(request);
-            Response response;
+
+            String auth = Credentials.basic(username, password);
+            result = String.valueOf(WalletResource.get(auth));
+
             try {
-                response = newCall.execute();
-                result = response.body().string();
                 ObjectMapper objectMapper = new ObjectMapper();
                 wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
                 });

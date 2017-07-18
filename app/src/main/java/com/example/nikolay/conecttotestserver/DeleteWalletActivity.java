@@ -86,11 +86,12 @@ public class DeleteWalletActivity extends AppCompatActivity {
     private class HttpTask extends AsyncTask<Void, Void, Void> {
 
         String result;
+
         @Override
         protected Void doInBackground(Void... voids) {
             String auth = Credentials.basic(username, password);
             String idWallet = ((EditText) findViewById(R.id.id_wallet_input)).getText().toString();
-            result = WalletResource.delete(auth,idWallet);
+            result = WalletResource.delete(auth, idWallet);
             return null;
         }
 

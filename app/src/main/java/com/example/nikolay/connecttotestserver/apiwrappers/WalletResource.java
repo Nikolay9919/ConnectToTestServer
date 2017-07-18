@@ -155,7 +155,7 @@ public class WalletResource {
         String host = Util.getFilePathToSave("host");
         String port = Util.getFilePathToSave("port");
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new LoggingInterceptor()).build();
+                .addInterceptor( new LoggingInterceptor()).build();
 //                new OkHttpClient();
 //        client.interceptors().add(new LoggingInterceptor());
         String result = "unknown";
