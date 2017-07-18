@@ -112,11 +112,10 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            String selected;
             String nameWallet = ((EditText) findViewById(R.id.name_wallet_input1)).getText().toString();
             String auth = Credentials.basic(username, password);
             Spinner spinner = (Spinner) findViewById(R.id.spinner);
-            selected = spinner.getSelectedItem().toString();
+            String selected = spinner.getSelectedItem().toString();
             String idWallet = ((EditText) findViewById(R.id.id_wallet_input1)).getText().toString();
 
             sb = WalletResource.update(auth, idWallet, selected, nameWallet);

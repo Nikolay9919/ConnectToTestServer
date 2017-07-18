@@ -26,7 +26,7 @@ import okio.Buffer;
 public class WalletResource {
 
 
-    public static Wallet add(Wallet w, String auth) throws UnautorisedException, IOException {
+    public static Wallet add(Wallet w, String auth) throws UnauthorisedException, IOException {
         String result;
         OkHttpClient client = new OkHttpClient();
         Log.d("selected", w.getType());
@@ -62,7 +62,7 @@ public class WalletResource {
         }
         Log.d("WalletResource.add", result);
         if (result.equals("unknown")) {
-            throw new UnautorisedException();
+            throw new UnauthorisedException();
         }
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(result, new TypeReference<Wallet>() {
@@ -155,7 +155,7 @@ public class WalletResource {
         String host = Util.getFilePathToSave("host");
         String port = Util.getFilePathToSave("port");
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor( new LoggingInterceptor()).build();
+                .addInterceptor(new LoggingInterceptor()).build();
 //                new OkHttpClient();
 //        client.interceptors().add(new LoggingInterceptor());
         String result = "unknown";

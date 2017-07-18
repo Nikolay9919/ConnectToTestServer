@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 
 import okhttp3.Credentials;
-import okhttp3.OkHttpClient;
 
 
 public class DeleteWalletActivity extends AppCompatActivity {
@@ -49,8 +48,7 @@ public class DeleteWalletActivity extends AppCompatActivity {
     }
 
     private class getWalletsTask extends AsyncTask<Void, Void, Void> {
-        private OkHttpClient client = new OkHttpClient();
-        private String result = "unknown";
+        private String result;
         List<Wallet> wallets = Collections.emptyList();
 
         @Override

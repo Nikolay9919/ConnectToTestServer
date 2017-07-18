@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nikolay.conecttotestserver.models.Wallet;
-import com.example.nikolay.connecttotestserver.apiwrappers.UnautorisedException;
+import com.example.nikolay.connecttotestserver.apiwrappers.UnauthorisedException;
 import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
 
 import java.io.IOException;
@@ -31,7 +31,6 @@ public class AddWalletActivity extends AppCompatActivity {
 
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
-        Log.d("ret", username);
         final Button button_add_wallet = (Button) findViewById(R.id.button_wallet);
         button_add_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,13 +50,14 @@ public class AddWalletActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            w.setName(((EditText) findViewById(R.id.name_wallet_input)).getText().toString());
+
             Spinner spinner = (Spinner) findViewById(R.id.spinner);
+            w.setName(((EditText) findViewById(R.id.name_wallet_input)).getText().toString());
             w.setType(spinner.getSelectedItem().toString());
             String auth = Credentials.basic(username, password);
             try {
                 result = WalletResource.add(w, auth);
-            } catch (UnautorisedException ex) {
+            } catch (UnauthorisedException ex) {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Log.d("HttpTask", "Error");

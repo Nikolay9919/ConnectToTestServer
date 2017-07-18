@@ -13,8 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.nikolay.conecttotestserver.models.Wallet;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +41,7 @@ public class TransactionActivity extends AppCompatActivity {
         trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new HttpTask().execute();
+                new TransactionHttpTask().execute();
             }
         });
         new HttpTask2().execute();
@@ -50,33 +49,13 @@ public class TransactionActivity extends AppCompatActivity {
     }
 
     private class getWalletsTask extends AsyncTask<Void, Void, Void> {
-        private OkHttpClient client = new OkHttpClient();
-        private String result = "unknown";
+        private String result;
         List<Wallet> wallets = Collections.emptyList();
 
         @Override
         protected Void doInBackground(Void... voids) {
-            HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("10.10.8.22")
-                    .port(8000)
-                    .addPathSegments("api/wallet/");
-            final HttpUrl url = builder.build();
-            Request request = new Request.Builder()
-                    .url(url.toString())
-                    .header("Authorization", Credentials.basic(username, password))
-                    .build();
-            Call newCall = client.newCall(request);
-            Response response;
-            try {
-                response = newCall.execute();
-                result = response.body().string();
-                ObjectMapper objectMapper = new ObjectMapper();
-                wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            String auth = Credentials.basic(username, password);
+            result = String.valueOf(WalletResource.get(auth));
             return null;
         }
 
@@ -101,7 +80,7 @@ public class TransactionActivity extends AppCompatActivity {
         }
     }
 
-    private class HttpTask extends AsyncTask<Void, Void, Void> {
+    private class TransactionHttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result1 = "unknown";
 
