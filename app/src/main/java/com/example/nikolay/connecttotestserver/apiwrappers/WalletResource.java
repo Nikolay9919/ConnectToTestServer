@@ -1,10 +1,7 @@
 package com.example.nikolay.connecttotestserver.apiwrappers;
 
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.nikolay.conecttotestserver.R;
 import com.example.nikolay.conecttotestserver.Util;
 import com.example.nikolay.conecttotestserver.models.Wallet;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -15,13 +12,16 @@ import java.util.Collections;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.Credentials;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
 
 public class WalletResource {
 
@@ -70,7 +70,7 @@ public class WalletResource {
     }
 
     public static StringBuilder get(String auth) {
-        String result = "";
+        String result;
         String errorMessage;
         List<Wallet> wallets = Collections.emptyList();
         OkHttpClient client = new OkHttpClient();
@@ -107,10 +107,10 @@ public class WalletResource {
         }
         return sb;
     }
-    public static String delete(String auth,String idWallet)
-    {
-         OkHttpClient client = new OkHttpClient();
-         String result = "unknown";
+
+    public static String delete(String auth, String idWallet) {
+        OkHttpClient client = new OkHttpClient();
+        String result;
 
         String host = Util.getFilePathToSave("host");
         String port = Util.getFilePathToSave("port");
@@ -139,11 +139,93 @@ public class WalletResource {
         } catch (Exception e) {
             result = e.getMessage();
             e.printStackTrace();
-        } try {
+        }
+        try {
 
-    } catch (Exception e) {
-        e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
- return result;
+
+    public static StringBuilder update(String auth, String idWallet, String selected, String nameWallet) {
+        StringBuilder sb = new StringBuilder();
+        List<Wallet> wallets = Collections.emptyList();
+        String ht = Util.getFilePathToSave("scheme");
+        String host = Util.getFilePathToSave("host");
+        String port = Util.getFilePathToSave("port");
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new LoggingInterceptor()).build();
+//                new OkHttpClient();
+//        client.interceptors().add(new LoggingInterceptor());
+        String result = "unknown";
+        try {
+            HttpUrl.Builder builder = new HttpUrl.Builder()
+                    .scheme(ht)
+                    .host(host)
+                    .port(Integer.parseInt(port))
+                    .addPathSegments("api/")
+                    .addPathSegment(idWallet)
+                    .addPathSegment("update/");
+            final HttpUrl url = builder.build();
+            RequestBody reqbody = new FormBody.Builder()
+                    .add("name", nameWallet)
+                    .add("type", selected)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url.toString())
+                    .header("Authorization", auth)
+                    .post(reqbody)
+                    .build();
+            Call newCall = client.newCall(request);
+            Response response;
+            try {
+                response = newCall.execute();
+                result = response.body().string();
+                ObjectMapper objectMapper = new ObjectMapper();
+                wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
+                });
+            } catch (Exception e) {
+                result = e.getMessage();
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (Wallet wallet : wallets) {
+            sb.append(wallet.toString())
+                    .append("\n");
+        }
+        Log.d("Task", selected);
+
+        return sb;
+    }
+
+    public static class LoggingInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Interceptor.Chain chain) throws IOException {
+            Request request = chain.request();
+
+            long t1 = System.nanoTime();
+            Log.d("OkHttp", String.format("--> Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
+
+            Buffer requestBuffer = new Buffer();
+            request.body().writeTo(requestBuffer);
+            Log.d("OkHttp", requestBuffer.readUtf8());
+
+            Response response = chain.proceed(request);
+
+            long t2 = System.nanoTime();
+            Log.d("OkHttp", String.format("<-- Received response for %s in %.1fms%n%s", response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+
+            MediaType contentType = response.body().contentType();
+            String content = response.body().string();
+            Log.d("OkHttp", content);
+
+            ResponseBody wrappedBody = ResponseBody.create(contentType, content);
+            return response.newBuilder().body(wrappedBody).build();
+        }
+
+
     }
 }

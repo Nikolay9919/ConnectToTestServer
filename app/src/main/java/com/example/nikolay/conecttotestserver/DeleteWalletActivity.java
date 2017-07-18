@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,20 +15,12 @@ import android.widget.Toast;
 
 import com.example.nikolay.conecttotestserver.models.Wallet;
 import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Collections;
 import java.util.List;
 
-import okhttp3.Call;
 import okhttp3.Credentials;
-import okhttp3.FormBody;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 public class DeleteWalletActivity extends AppCompatActivity {
@@ -64,27 +55,8 @@ public class DeleteWalletActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("10.10.8.22")
-                    .port(8000)
-                    .addPathSegments("api/wallet/");
-            final HttpUrl url = builder.build();
-            Request request = new Request.Builder()
-                    .url(url.toString())
-                    .header("Authorization", Credentials.basic(username, password))
-                    .build();
-            Call newCall = client.newCall(request);
-            Response response;
-            try {
-                response = newCall.execute();
-                result = response.body().string();
-                ObjectMapper objectMapper = new ObjectMapper();
-                wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            String auth = Credentials.basic(username, password);
+            result = String.valueOf(WalletResource.get(auth));
             return null;
         }
 
@@ -106,7 +78,6 @@ public class DeleteWalletActivity extends AppCompatActivity {
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parentView) {
-                            // your code here
                         }
                     });
         }

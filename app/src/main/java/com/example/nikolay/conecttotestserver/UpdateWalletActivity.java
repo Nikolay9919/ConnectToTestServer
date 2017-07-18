@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.nikolay.conecttotestserver.models.Wallet;
+import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,11 +24,9 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
-import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -59,14 +58,14 @@ public class UpdateWalletActivity extends AppCompatActivity {
 
     }
 
-    String ht = Util.getFilePathToSave("scheme");
-    String host = Util.getFilePathToSave("host");
-    String port = Util.getFilePathToSave("port");
 
     private class getWalletsTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result = "unknown";
         List<Wallet> wallets = Collections.emptyList();
+        String ht = Util.getFilePathToSave("scheme");
+        String host = Util.getFilePathToSave("host");
+        String port = Util.getFilePathToSave("port");
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -118,77 +117,36 @@ public class UpdateWalletActivity extends AppCompatActivity {
                             spinner.setSelection(types.get(selectedW.getType()));
                             spinner.setSelection(types.get(selectedW.getType()));
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parentView) {
-                            // your code here
                         }
                     });
         }
     }
 
     private class UpdateWalletTask extends AsyncTask<Void, Void, Void> {
-        private OkHttpClient client = new OkHttpClient();
-        private String result = "unknown";
-        String selected = "Visa";
-        List<Wallet> wallets = Collections.emptyList();
+
         StringBuilder sb = new StringBuilder();
+
 
         @Override
         protected Void doInBackground(Void... voids) {
+            String selected;
+            String nameWallet = ((EditText) findViewById(R.id.name_wallet_input1)).getText().toString();
+            String auth = Credentials.basic(username, password);
+            Spinner spinner = (Spinner) findViewById(R.id.spinner);
+            selected = spinner.getSelectedItem().toString();
+            String idWallet = ((EditText) findViewById(R.id.id_wallet_input1)).getText().toString();
 
-            try {
-                String idWallet = ((EditText) findViewById(R.id.id_wallet_input1)).getText().toString();
-                String nameWallet = ((EditText) findViewById(R.id.name_wallet_input1)).getText().toString();
-                Spinner spinner = (Spinner) findViewById(R.id.spinner);
-                selected = spinner.getSelectedItem().toString();
-                HttpUrl.Builder builder = new HttpUrl.Builder()
-                        .scheme(ht)
-                        .host(host)
-                        .port(Integer.parseInt(port))
-                        .addPathSegments("api/")
-                        .addPathSegment(idWallet)
-                        .addPathSegment("update/");
-                final HttpUrl url = builder.build();
-                RequestBody reqbody = new FormBody.Builder()
-                        .add("name", nameWallet)
-                        .add("type", selected)
-                        .build();
-                Request request = new Request.Builder()
-                        .url(url.toString())
-                        .header("Authorization", Credentials.basic(username, password))
-                        .post(reqbody)
-                        .build();
-                Call newCall = client.newCall(request);
-                Response response;
-                try {
-                    response = newCall.execute();
-                    result = response.body().string();
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
-                    });
-                } catch (Exception e) {
-                    result = e.getMessage();
-                    e.printStackTrace();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            for (Wallet wallet : wallets) {
-                sb.append(wallet.toString())
-                        .append("\n");
-            }
+            sb = WalletResource.update(auth, idWallet, selected, nameWallet);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void op) {
-
             TextView textView = (TextView) findViewById(R.id.infoOutput);
-            if (result.contains("<!DOCTYPE html>")) {
-                textView.setText("Check wallet id");
-            } else {
-                textView.setText(sb.toString());
-            }
+            textView.setText(sb.toString());
         }
     }
 }
