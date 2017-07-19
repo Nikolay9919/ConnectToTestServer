@@ -71,7 +71,6 @@ public class DeleteWalletActivity extends AppCompatActivity {
 
                             Wallet selectedW = wallets.get(position);
                             ((EditText) findViewById(R.id.id_wallet_input)).setText(String.valueOf(selectedW.getId()));
-                            Spinner spinner = (Spinner) findViewById(R.id.spinner);
                         }
 
                         @Override

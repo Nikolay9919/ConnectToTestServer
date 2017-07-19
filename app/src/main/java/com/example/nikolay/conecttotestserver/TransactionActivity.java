@@ -80,6 +80,11 @@ public class TransactionActivity extends AppCompatActivity {
         }
     }
 
+    String ht = Util.getFilePathToSave("scheme");
+    String host = Util.getFilePathToSave("host");
+    String port = Util.getFilePathToSave("port");
+    String transaction = Util.getFilePathToSave("pathTrans");
+
     private class TransactionHttpTask extends AsyncTask<Void, Void, Void> {
         private OkHttpClient client = new OkHttpClient();
         private String result1 = "unknown";
@@ -90,10 +95,7 @@ public class TransactionActivity extends AppCompatActivity {
                 String idWallet = ((EditText) findViewById(R.id.wallet_id)).getText().toString();
                 String transValue = ((EditText) findViewById(R.id.trans_value)).getText().toString();
                 String transType = ((EditText) findViewById(R.id.trans_type)).getText().toString();
-                String ht = Util.getFilePathToSave("scheme");
-                String host = Util.getFilePathToSave("host");
-                String port = Util.getFilePathToSave("port");
-                String transaction = Util.getFilePathToSave("pathTrans");
+
                 HttpUrl.Builder builder = new HttpUrl.Builder()
                         .scheme(ht)
                         .host(host)
@@ -147,10 +149,10 @@ public class TransactionActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             HttpUrl.Builder builder = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("10.10.8.22")
-                    .port(8000)
-                    .addPathSegments("api/transaction/");
+                    .scheme(ht)
+                    .host(host)
+                    .port(Integer.parseInt(port))
+                    .addPathSegments(transaction);
             final HttpUrl url = builder.build();
             Request request = new Request.Builder()
                     .url(url.toString())
