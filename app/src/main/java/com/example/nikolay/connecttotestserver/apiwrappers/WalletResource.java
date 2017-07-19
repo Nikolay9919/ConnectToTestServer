@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.nikolay.conecttotestserver.Util;
 import com.example.nikolay.conecttotestserver.models.Wallet;
+import com.example.nikolay.conecttotestserver.util.OkHttpClientFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -107,6 +108,40 @@ public class WalletResource {
         }
         return sb;
     }
+    public static List<Wallet> getforSpin(String auth) {
+        String result;
+        String errorMessage;
+        List<Wallet> wallets = Collections.emptyList();
+
+        OkHttpClient client = OkHttpClientFactory.get();
+        String ht = Util.getFilePathToSave("scheme");
+        String host = Util.getFilePathToSave("host");
+        String port = Util.getFilePathToSave("port");
+        String wallet = Util.getFilePathToSave("pathWallet");
+        HttpUrl.Builder builder = new HttpUrl.Builder()
+                .scheme(ht)
+                .host(host)
+                .port(Integer.parseInt(port))
+                .addPathSegments(wallet);
+        final HttpUrl url = builder.build();
+        Request request = new Request.Builder()
+                .url(url.toString())
+                .header("Authorization", auth)
+                .build();
+        Call newCall = client.newCall(request);
+        Response response;
+        try {
+            response = newCall.execute();
+            result = response.body().string();
+            ObjectMapper objectMapper = new ObjectMapper();
+            wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
+            });
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+            e.printStackTrace();
+        }
+        return wallets;
+    }
 
     public static String delete(String auth, String idWallet) {
         OkHttpClient client = new OkHttpClient();
@@ -156,8 +191,6 @@ public class WalletResource {
         String port = Util.getFilePathToSave("port");
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new LoggingInterceptor()).build();
-//                new OkHttpClient();
-//        client.interceptors().add(new LoggingInterceptor());
         String result = "unknown";
         try {
             HttpUrl.Builder builder = new HttpUrl.Builder()

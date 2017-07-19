@@ -64,13 +64,7 @@ public class UpdateWalletActivity extends AppCompatActivity {
             String auth = Credentials.basic(username, password);
             result = String.valueOf(WalletResource.get(auth));
 
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                wallets = objectMapper.readValue(result, new TypeReference<List<Wallet>>() {
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+   wallets = WalletResource.getforSpin(auth);
             return null;
         }
 

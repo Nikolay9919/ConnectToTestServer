@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import com.example.nikolay.conecttotestserver.models.Wallet;
 import com.example.nikolay.connecttotestserver.apiwrappers.WalletResource;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,6 +58,9 @@ public class DeleteWalletActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             String auth = Credentials.basic(username, password);
             result = String.valueOf(WalletResource.get(auth));
+wallets = WalletResource.getforSpin(auth);
+
+
             return null;
         }
 

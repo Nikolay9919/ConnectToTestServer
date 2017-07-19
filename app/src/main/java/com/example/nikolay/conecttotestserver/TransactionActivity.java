@@ -55,7 +55,7 @@ public class TransactionActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             String auth = Credentials.basic(username, password);
-            result = String.valueOf(WalletResource.get(auth));
+            wallets = WalletResource.getforSpin(auth);
             return null;
         }
 
